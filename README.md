@@ -16,11 +16,11 @@ Settings:
 Running:
 1. If using TXL
 
-  txl -i "$INSTR_PATH/rules" -in 2 -o <outputFile>.java <inputFile>.java $INSTR_PATH/rules/JavaRules.txl
+  txl -i "$INSTR_PATH/rules" -in 2 -o outputFile.java inputFile.java $INSTR_PATH/rules/JavaRules.txl
 
 2. Run
 
-  java -jar ltse.jar [<filterFile>] [<refinementFile>] [<actionMode>] <list-of-logs> [<specFile>]
+  java -jar ltse.jar [filterFile] [refinementFile] [actionMode] list-of-logs [specFile]
   
 
 where:
