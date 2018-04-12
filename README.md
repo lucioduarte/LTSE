@@ -31,8 +31,10 @@ where:
     -e (enter/exit mode): action name "m.enter" represents the beginning of the execution of corresponding method m, whereas "m.exit" represents the end of the execution;
  - <list-of-logs>: List of names of ".log" files containing each one execution trace with context information
  - <specFile>: Specification to be included in the model file in one of the formats allowed by the LTSA tool (automaton property or LTL/FLTL formula) 
+  
   It is recommended that the outputs of the LTSE tool (sent to the standard error output) be redirected to a result file.
   Correct execution should produce 3 files:
+  
 - A ".mdl" file containing the textual description of the generated model;
 - A ".ctb" file containing a description of the context table created during the process;
 - A ".lts" file containing the LTS model in the format input of the LTSA tool
