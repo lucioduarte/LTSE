@@ -1,0 +1,156 @@
+*** LTSE version: 06/01/2017***
+==> Options checked!
+
+==> Filter file processed!
+
+
+ ==> Refinement file StackRef.ref found!
+
+ ==> Attribute for refinement: isEmpty
+
+ ==> Identification of refinements complete!
+
+==> Refinement file processed!
+
+==> Mode Set = TERMINATION
+==> Action mode set!
+
+==> Model type set to NORMAL!
+
+
+Collecting log names...
+
+ ==> All logs collected!
+
+
+Separating classes...
+
+ ==> Classes splitted!
+
+
+==> Building one model per class found...
+Looking for CT file...
+
+==> CT file not found for ltse.context.CallStack. No CT loaded.
+
+Looking for model file...
+
+==> Model file not found for ltse.context.CallStack. No model loaded.
+
+Looking for a specification file...
+==> No specification loaded!
+
+
+
+
+*********************************************************************
+
+
+==> Extracting model ltse.context.CallStack...
+==> Identifying contexts...
+
+New GLOBAL!
+***** GLOBAL *****
+New GLOBAL!
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+New GLOBAL!
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+***** GLOBAL *****
+S   P                                      ID   V    A
+
+0   GLOBAL                                 -1   T                     <>
+1   GLOBAL                                 -1   T    {isEmpty=true}   <>
+2   ltse.context.CallStack.isEmpty         15   T    {isEmpty=true}   <>
+3   calls.isEmpty                          0    T    {isEmpty=true}   <ltse.context.CallStack.isEmpty>
+4   ltse.context.CallStack.popCall         18   T    {isEmpty=true}   <>
+5   call.ltse.context.CallStack.isEmpty    10   T    {isEmpty=true}   <ltse.context.CallStack.popCall>
+6   ltse.context.CallStack.isEmpty         15   T    {isEmpty=true}   <ltse.context.CallStack.popCall, call.ltse.context.CallStack.isEmpty>
+7   calls.isEmpty                          0    T    {isEmpty=true}   <ltse.context.CallStack.popCall, call.ltse.context.CallStack.isEmpty, ltse.context.CallStack.isEmpty>
+8   (empty)                                13   F    {isEmpty=true}   <ltse.context.CallStack.popCall>
+9   ltse.context.CallStack.pushCall        20   T    {isEmpty=true}   <>
+10  calls.push                             2    T    {isEmpty=true}   <ltse.context.CallStack.pushCall>
+11  GLOBAL                                 -1   T    {isEmpty=false}  <>
+12  ltse.context.CallStack.popCall         18   T    {isEmpty=false}  <>
+13  call.ltse.context.CallStack.isEmpty    10   T    {isEmpty=false}  <ltse.context.CallStack.popCall>
+14  ltse.context.CallStack.isEmpty         15   T    {isEmpty=false}  <ltse.context.CallStack.popCall, call.ltse.context.CallStack.isEmpty>
+15  calls.isEmpty                          0    T    {isEmpty=false}  <ltse.context.CallStack.popCall, call.ltse.context.CallStack.isEmpty, ltse.context.CallStack.isEmpty>
+16  (empty)                                13   T    {isEmpty=false}  <ltse.context.CallStack.popCall>
+17  calls.pop                              3    T    {isEmpty=false}  <ltse.context.CallStack.popCall>
+18  ltse.context.CallStack.pushCall        20   T    {isEmpty=false}  <>
+19  calls.push                             2    T    {isEmpty=false}  <ltse.context.CallStack.pushCall>
+20  ltse.context.CallStack.getCalls        19   T    {isEmpty=false}  <>
+21  calls.iterator                         4    T    {isEmpty=false}  <ltse.context.CallStack.getCalls>
+22  i.hasNext                              5    T    {isEmpty=false}  <ltse.context.CallStack.getCalls>
+23  (hasnext)                              14   T    {isEmpty=false}  <ltse.context.CallStack.getCalls>
+24  i.next                                 6    T    {isEmpty=false}  <ltse.context.CallStack.getCalls>
+25  i.hasNext                              7    T    {isEmpty=false}  <ltse.context.CallStack.getCalls>
+26  (aux)                                  11   T    {isEmpty=false}  <ltse.context.CallStack.getCalls>
+27  i.hasNext                              8    T    {isEmpty=false}  <ltse.context.CallStack.getCalls>
+28  (aux)                                  11   F    {isEmpty=false}  <ltse.context.CallStack.getCalls>
+29  (hasnext)                              14   F    {isEmpty=false}  <ltse.context.CallStack.getCalls>
+30  ltse.context.CallStack.getCallStack    16   T    {isEmpty=false}  <>
+31  ltse.context.CallStack.getCurrentCall  17   T    {isEmpty=false}  <>
+32  call.ltse.context.CallStack.isEmpty    9    T    {isEmpty=false}  <ltse.context.CallStack.getCurrentCall>
+33  ltse.context.CallStack.isEmpty         15   T    {isEmpty=false}  <ltse.context.CallStack.getCurrentCall, call.ltse.context.CallStack.isEmpty>
+34  calls.isEmpty                          0    T    {isEmpty=false}  <ltse.context.CallStack.getCurrentCall, call.ltse.context.CallStack.isEmpty, ltse.context.CallStack.isEmpty>
+35  (empty)                                12   T    {isEmpty=false}  <ltse.context.CallStack.getCurrentCall>
+36  calls.peek                             1    T    {isEmpty=false}  <ltse.context.CallStack.getCurrentCall>
+
+
+
+==> Contexts identified!
+
+==> Creating FSP specification...
+==> FSP specification generated and saved in file ltse.context.CallStack.lts!
+
+
+
+==> Performance information for model ltse.context.CallStack:
+
+
+Model extracted in 140ms.
+Approximate memory usage of 8182 bytes.
+
+==> Saving context table...
+The context table has been saved as ltse.context.CallStack.ctb
+
+Saving model...
+The model has been saved as ltse.context.CallStack.mdl
+
+Deleting temp files...
+==> Temp files deleted!
+
+
+
+
+*********************************************************************
+
+

@@ -1,0 +1,424 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Collects information about non-static attributes and includes them
+% in the list of attributes
+
+% INPUT: 
+% <type> <id>;
+% OUTPUT: 
+% INPUT marked as processed and [id] added to 
+% list of attributes
+
+rule obtain_attribute
+  replace [field_declaration]
+    RS [original_attribute]
+
+  deconstruct RS
+    T [type_specifier] N [id] ';
+    
+  % Recovers current list of attributes
+  import attrib_list [printable_list]  
+  import ATTR [stringlit]
+  
+ 	construct ATTR_VAL [local_attribute]
+  	'this '. N
+    
+  construct ATTR_MSG [stringlit]
+    _ [quote N]
+  construct NewAttribute [printable_list]
+    ATTR_MSG '+ "=" '+ ATTR_VAL '+ ATTR
+
+  % Returns list of attributes appended with new attribute
+  export attrib_list
+    attrib_list '+ NewAttribute
+
+  construct NS [processed_attribute]
+    T N ';
+
+  by
+    NS
+end rule
+
+
+
+% Collects information about static attributes and includes them in
+% the list of attributes
+
+% INPUT: 
+% static <type> <id> [<dimension>] [= <exp>];
+% OUTPUT: 
+% INPUT marked as processed and [id] added to 
+% list of attributes
+
+rule obtain_static_attribute
+  replace [field_declaration]
+    RS [original_attribute]
+
+  deconstruct RS
+    'static T [type_specifier] N [id] D [repeat dimension] 
+    E [equals_variable_initializer] ';
+   
+  % Recovers current list of attributes
+  import attrib_list [printable_list]
+  import ATTR [stringlit]
+  import CLASS_NAME [id]
+  
+  construct ATTR_VAL [local_attribute]
+  	CLASS_NAME '. N
+    
+  construct ATTR_MSG [stringlit]
+    _ [quote N]
+  
+  construct NewAttribute [printable_list]
+    ATTR_MSG '+ "="  '+ ATTR_VALUE '+ ATTR
+
+  % Returns list of attributes appended with new attribute
+  export attrib_list
+    attrib_list '+ NewAttribute 
+
+  construct NS [processed_attribute]
+    'static T N D ';
+
+  by
+    NS
+end rule
+
+% Collects information about non-static attributes and includes them
+% in the list of attributes
+
+% INPUT: 
+% <type> <id> <dimension>;
+% OUTPUT: 
+% INPUT marked as processed and [id] added to 
+% list of attributes
+
+rule obtain_attribute_dim
+  replace [field_declaration]
+    RS [original_attribute]
+
+  deconstruct RS
+    T [type_specifier] N [id] D [repeat dimension] ';
+    
+  % Recovers current list of attributes
+  import attrib_list [printable_list]  
+  import ATTR [stringlit]
+    
+  construct ATTR_VAL [local_attribute]
+  	'this '. N
+    
+  construct ATTR_MSG [stringlit]
+    _ [quote N]
+  construct NewAttribute [printable_list]
+    ATTR_MSG '+ "=" '+ ATTR_VAL '+ ATTR
+
+  % Returns list of attributes appended with new attribute
+  export attrib_list
+    attrib_list '+ NewAttribute
+
+  construct NS [processed_attribute]
+    T N D ';
+
+  by
+    NS
+end rule
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Collects information about non-static attributes with modifier
+% and includes them in the list of attributes
+
+% INPUT: 
+% <modifier> <type> <id> [<dimension>];
+% OUTPUT: 
+% INPUT marked as processed and [id] added to 
+% list of attributes
+
+rule obtain_attribute_with_modifier
+  replace [field_declaration]
+    RS [original_attribute]
+
+  deconstruct RS
+    M [modifier] T [type_specifier] N [id] D [repeat
+    dimension] ';
+   
+  % Recovers current list of attributes
+  import attrib_list [printable_list] 
+  import ATTR [stringlit] 
+  
+  construct ATTR_VAL [local_attribute]
+  	'this '. N
+    
+  construct ATTR_MSG [stringlit]
+    _ [quote N]
+  construct NewAttribute [printable_list]
+    ATTR_MSG '+ "=" '+ ATTR_VAL '+ ATTR
+
+  % Returns list of attributes appended with new attribute
+  export attrib_list
+    attrib_list '+ NewAttribute
+
+  construct NS [processed_attribute]
+    M T N D ';
+
+  by
+    NS
+end rule
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% METHOD CALLS %%%%%
+
+% Ignores known static method calls
+
+% INPUT: 
+% [class].<method> ([<arguments>]);
+% OUTPUT: 
+% INPUT marked as processed
+
+%rule ignore_static_call
+ % replace [statement]
+  %  RS [original_statement]
+  %deconstruct RS
+   % ES [expression_statement]
+  %deconstruct ES
+   % C [class_name] '. _ [id] '( _ [list argument] ') ';
+
+  % Marks statement as processed
+  %construct NS [processed_statement]
+   % RS
+  %by
+   % NS
+%end rule
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Ignores method calls using 'this', since 
+% they are internal method calls
+
+% INPUT: 
+% this.<method> ([<arguments>]);
+% OUTPUT: 
+% INPUT marked as processed
+
+%rule ignore_this_call
+%  replace [statement]
+%    RS [original_statement]
+%  deconstruct RS
+%    ES [expression_statement]
+%  deconstruct ES
+%    'this '. _ [id] '( _ [list argument] ') ';
+
+  % Marks statement as processed
+%  construct NS [processed_statement]
+%    RS
+%  by
+%    NS
+%end rule
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%% METHOD BODIES %%%%%
+
+% Ignores static method bodies
+
+% INPUT: 
+% [<modifiers>] 'static [<modifiers>] <type> <method_name> ([<parameters>]) [<exceptions>] { <body> }
+% OUTPUT: 
+% INPUT marked as processed
+
+%rule ignore_static_body
+%  replace [method_declaration]
+ %   RS [original_method_declaration]
+  %deconstruct RS
+   % M [repeat modifier] T [type_specifier] Decl [method_declarator] 
+    %E [opt throws] Body [method_body]
+  %deconstruct * [modifier] M
+  	%'static [modifier]
+
+  % Marks statement as processed
+  %construct NS [processed_statement]
+   % RS
+  %by
+   % NS
+%end rule
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Annotates the main method 
+
+% INPUT: 
+% [<modifiers>] <type> <m> ( [<params>] ) [<excep>] <body>
+% OUTPUT: 
+% INPUT, sends it to rule methodMainAnnotation
+
+rule traced_main_method
+  replace [method_declaration]
+    RS [original_method_declaration]
+  deconstruct RS
+    M [repeat modifier] T [type_specifier] Decl [method_declarator] 
+    E [opt throws] Body [method_body]
+  deconstruct Decl
+    MET [method_name] '( P [list formal_parameter] ')
+
+  % Checks whether it is the main method
+  
+  construct MAIN [stringlit]
+  		_ [quote 'main]
+  
+  construct MET_NAME [stringlit]
+    _ [quote MET]
+  where
+    MET_NAME [= MAIN]
+
+  export MET
+
+  construct ND [processed_method_declaration]
+    RS
+  by
+    ND [methodMainAnnotation]
+end rule
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Includes commands inside main method
+
+% INPUT: 
+% { D [repeat declaration_or_statement] }
+% OUTPUT: 
+% {
+%  {
+%   D
+%  }
+%  Thread myShutdownThread = new Thread ( ) { public void run () { System.err.println("END"); } };
+%  Runtime.getRuntime().addShutdownHook(myShutdownThread);
+% }
+
+rule methodMainAnnotation
+  replace [method_body]
+    RS [original_method_body]
+  deconstruct RS
+    '{ D [repeat declaration_or_statement] '}
+
+  import MET [method_name]
+
+  % Creates annotation
+  construct STR [printable_list]
+    "END"
+    
+  construct MSG_END_PRINT [processed_method_body]
+    { System.err.println(STR); }
+    
+  construct TM [processed_method_declaration]
+    public void run () MSG_END_PRINT
+      
+  construct TD [processed_declaration]
+    Thread myShutdownThread = new Thread ( ) { TM };
+    
+  construct RM [processed_statement]
+    Runtime.getRuntime().addShutdownHook(myShutdownThread);      
+
+  % Includes annotation in method body
+  construct NewBody [processed_method_body]
+    '{
+      '{
+        D
+      '}
+      TD
+      RM
+    '}
+  by
+    NewBody
+end rule
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Annotates selection statements in ternary assignments
+
+% INPUT: 
+% <v> = (<exp>) ? <t_exp> : <f_exp>;
+% OUTPUT: 
+% {
+%   if (<cond>) {
+%     System.err.println ("SEL_ENTER:" + "(<cond>)" + "#" + true + "#" + NAME + "=" + OID + "#" + "{" + <attr_list> + "}" + "#" + <CID>);
+%     <stmts>
+%   }
+%   else {
+%     System.err.println ("SEL_ENTER:" + "(<cond>)" + "#" + false + "#" + NAME + "=" + OID + "#" + "{" + <attr_list> + "}" + "#" + <CID>);
+%     <stmts2>
+%   }
+%   System.err.println ("SEL_END:(<cond>)" + "#" + NAME + "=" + OID + "#" + <CID>);
+% }
+
+rule traced_ternary_assignment
+  replace [statement]
+    RS [original_statement]
+  deconstruct RS
+    VAR [id] '= '( E [conditional_expression] ') C [conditional_choice] ';
+  deconstruct C
+    '? T [expression] ': F [conditional_expression]
+    
+  % Recovers current attribute list
+  import attrib_list [printable_list]
+  % Recovers current ID number
+  import counter [number]
+  
+  import NAME [id]
+  import OID [printable_list]
+  import SEP [stringlit]
+  import END [stringlit]
+  import LCB [stringlit]
+  import RCB [stringlit]
+  import COLON [stringlit]
+  import SEL_ENTER [stringlit]
+  import SEL_END [stringlit]
+  import LPAR [stringlit]
+  import RPAR [stringlit]
+  
+  % Creates annotations
+  construct EXP [stringlit]
+  	_ [quote E]
+  construct COND [expression]
+    '( E ')
+    
+  % Includes information about values of attributes
+  construct ATTR_MSG [printable_list]
+    LCB '+ attrib_list '+ RCB
+  % Includes ID information
+  construct ID [stringlit]
+    _ [quote counter]
+   
+  construct COMP_MSG [printable_list]
+    SEL_ENTER '+ COLON '+ LPAR '+ EXP '+ RPAR '+ SEP '+ COND '+ SEP '+ NAME '+ "=" '+ OID '+ SEP '+ ATTR_MSG '+  SEP '+ ID '+ END
+  construct MSG_CMD [print_statement]
+    System.err.println (COMP_MSG);
+    
+  % Updates ID information
+  export counter
+    counter [+ 1]
+    
+  construct END_MSG [printable_list]
+    SEL_END '+ COLON '+ LPAR '+ EXP '+ RPAR '+ SEP '+ NAME '+ "=" '+ OID '+  SEP '+ ID '+ END
+  construct END_MSG_CMD [print_statement]
+    System.err.println(END_MSG);
+
+  % Marks statement as processed and includes annotations
+  construct NT [processed_statement]
+    VAR '= '( E ') C ';
+  construct NS [processed_statement]
+    '{
+      MSG_CMD
+      NT
+      END_MSG_CMD
+    '}
+  by
+    NS
+end rule
+  
+

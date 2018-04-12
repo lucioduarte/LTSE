@@ -1,0 +1,59 @@
+property Initialised = (initialised -> INI),
+INI = ({isEmpty,popCall,pushCall,getCallStack,getCalls,getCurrentCall} -> INI).
+
+const N = 3
+property CorrectUse = S[0],
+S[i:0..N] = (when (i < N) calls.push -> S[i+1]
+			|when (i > 0) calls.pop -> S[i-1]).
+
+deterministic CallStack = Q0,
+Q0 = (initialised -> Q1
+	|initialised -> FINAL),
+Q1 = (null -> Q2
+	|null -> Q4
+	|null -> Q9),
+Q2 = (null -> Q3),
+Q3 = (calls.isEmpty -> isEmpty -> FINAL),
+FINAL = (_EXIT -> FINAL),
+Q4 = (null -> Q5),
+Q5 = (null -> Q6),
+Q6 = (null -> Q7),
+Q7 = (calls.isEmpty -> isEmpty -> call.isEmpty -> Q8),
+Q8 = (popCall -> FINAL),
+Q9 = (null -> Q10),
+Q10 = (calls.push -> pushCall -> Q11),
+Q11 = (null -> Q12
+	|null -> Q18
+	|null -> Q20
+	|null -> Q30
+	|null -> Q31),
+Q12 = (null -> Q13),
+Q13 = (null -> Q14),
+Q14 = (null -> Q15),
+Q15 = (calls.isEmpty -> isEmpty -> call.isEmpty -> Q16),
+Q16 = (null -> Q17),
+Q17 = (calls.pop -> popCall -> Q1
+	|calls.pop -> popCall -> Q11),
+Q18 = (null -> Q19),
+Q19 = (calls.push -> pushCall -> Q11),
+Q20 = (null -> Q21),
+Q21 = (calls.iterator -> Q22),
+Q22 = (i.hasNext -> Q23),
+Q23 = (null -> Q24),
+Q24 = (i.next -> Q25),
+Q25 = (i.hasNext -> Q26
+	|i.hasNext -> Q28),
+Q26 = (null -> Q27),
+Q27 = (i.hasNext -> Q23
+	|i.hasNext -> Q29),
+Q28 = (null -> Q27),
+Q29 = (getCalls -> FINAL
+	|getCalls -> Q11),
+Q30 = (getCallStack -> FINAL),
+Q31 = (null -> Q32),
+Q32 = (null -> Q33),
+Q33 = (null -> Q34),
+Q34 = (calls.isEmpty -> isEmpty -> call.isEmpty -> Q35),
+Q35 = (null -> Q36),
+Q36 = (calls.peek -> getCurrentCall -> FINAL)
+\{null}.
