@@ -21,6 +21,7 @@ Running:
 2. Run
 
   java -jar ltse.jar [<filterFile>] [<refinementFile>] [<actionMode>] <list-of-logs> [<specFile>]
+  
 
 where:
  -<filterFile>: Name of ".flt" file containing the names of actions to be included in the model (one name per line) - OPTIONAL, default is all actions included
