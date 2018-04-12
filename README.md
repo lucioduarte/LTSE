@@ -16,22 +16,22 @@ Settings:
 Running:
 1. If using TXL
 
-  txl -i "$INSTR_PATH/rules" -in 2 -o \<outputFile\>.java inputFile.java $INSTR_PATH/rules/JavaRules.txl
+  txl -i "$INSTR_PATH/rules" -in 2 -o \<outputFile\>.java \<inputFile\>.java $INSTR_PATH/rules/JavaRules.txl
 
 2. Run
 
-  java -jar ltse.jar [filterFile] [refinementFile] [actionMode] list-of-logs [specFile]
+  java -jar ltse.jar [\<filterFile\>] [\<refinementFile\>] [\<actionMode\>] \<list-of-logs\> [\<specFile\>]
   
 
 where:
- -<filterFile>: Name of ".flt" file containing the names of actions to be included in the model (one name per line) - OPTIONAL, default is all actions included
- - <refinementFile>: Name of ".ref" file containing the names of attributes to be included in context information (one name per line) - OPTIONAL, default is no attributes
- - <actionMode>: Determines how actions related to method calls/execution are represented and interpreted (OPTIONAL, default is call mode):
+ - \<\<filterFile\>: Name of ".flt" file containing the names of actions to be included in the model (one name per line) - OPTIONAL, default is all actions included
+ - \<refinementFile\>: Name of ".ref" file containing the names of attributes to be included in context information (one name per line) - OPTIONAL, default is no attributes
+ - \<actionMode\>: Determines how actions related to method calls/execution are represented and interpreted (OPTIONAL, default is call mode):
     -c (call mode): action name "m" represents the call of the corresponding method m (i.e., before its execution);
     -t (termination mode): action name "m" represents the termination of the corresponding method m (i.e., after its execution);
     -e (enter/exit mode): action name "m.enter" represents the beginning of the execution of corresponding method m, whereas "m.exit" represents the end of the execution;
- - <list-of-logs>: List of names of ".log" files containing each one execution trace with context information
- - <specFile>: Specification to be included in the model file in one of the formats allowed by the LTSA tool (automaton property or LTL/FLTL formula) 
+ - \<list-of-logs\>: List of names of ".log" files containing each one execution trace with context information
+ - \<specFile\>: Specification to be included in the model file in one of the formats allowed by the LTSA tool (automaton property or LTL/FLTL formula) 
   
   It is recommended that the outputs of the LTSE tool (sent to the standard error output) be redirected to a result file.
   Correct execution should produce 3 files:
