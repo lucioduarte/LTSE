@@ -1,7 +1,14 @@
+sudo: required
+dist: trusty
+group: edge
 language: java
-sudo: enabled
-os: osx
 jdk:
   - oraclejdk8
   - oraclejdk9
-  - openjdk8
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+before_script: cd ltse/
+script:
+  - javac LTSExtractor.java
